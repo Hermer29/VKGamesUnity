@@ -89,6 +89,17 @@ const library = {
                     console.log(error);
                 });
         },
+        
+        vkWebAppShowBannerAd: function (bannerLocation, errorCallbackPtr) {
+            vkGames.bridge.send("VKWebAppShowBannerAd", { banner_location: bannerLocation })
+                .then(function (data) {
+                    console.log(data.success);
+                })
+                .catch(function (error) {
+                   dynCall('v', errorCallbackPtr);
+                   console.log(error);
+                });
+        },
 
         vkWebAppShowLeaderboardBox: function (playerScore, errorCallbackPtr) {
             vkGames.bridge.send("VKWebAppShowLeaderBoardBox", { user_result: playerScore })
@@ -211,6 +222,14 @@ const library = {
         vkGames.throwIfSdkNotInitialized();
 
         vkGames.vkWebAppShowInterstitialAd(openCallbackPtr, errorCallbackPtr);
+    },
+    
+    ShowBannerAd: function(bannerLocationPtr, errorCallbackPtr) {
+        vkGames.throwIfSdkNotInitialized();
+
+        const bannerLocation = UTF8ToString(bannerLocationPtr);
+        
+        vkGames.vkWebAppShowBannerAd(bannerLocation, errorCallbackPtr);
     },
 
     ShowLeaderboardBox: function (playerScore, errorCallbackPtr) {
